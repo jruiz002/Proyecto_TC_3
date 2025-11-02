@@ -1,0 +1,9 @@
+# Cadenas para MT Alteradora (Duplicar: w -> ww)
+# Formato: una cadena por línea
+# Las líneas que empiecen con # son comentarios
+
+# 4 cadenas de 5+ caracteres para probar
+ababa
+bbbaa
+aabbb
+babab

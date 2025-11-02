@@ -1,83 +1,97 @@
 # Máquina de Turing Alteradora
-# Función: Duplicar una cadena
-# Descripción: Toma una cadena w y la convierte en ww (duplicada)
+# Duplica una cadena: w -> ww
+# Algoritmo: Copia cada símbolo de la cadena original al final
 
 mt:
-  states: [q0, q1, q2, q3, q4, qf]
+  states: [q0, q1, q2, q3, q4, q5, qf]
   input_alphabet: [a, b]
-  tape_alphabet: [a, b, B, X, Y, Z]
+  tape_alphabet: [a, b, X, Y, B]
   initial_state: q0
   accept_states: [qf]
   transitions:
-    # Fase 1: Marcar el primer símbolo y copiarlo al final
-    # Procesar 'a'
+    # Desde q0: marcar primer símbolo y determinar qué copiar
     - state: q0
       read: [a]
       write: [X]
       move: R
       next: q1
     
-    # Procesar 'b'
     - state: q0
       read: [b]
       write: [Y]
-      move: R
-      next: q1
-    
-    # Si encontramos Z (separador), hemos terminado la primera copia
-    - state: q0
-      read: [Z]
-      write: [Z]
-      move: R
-      next: q4
-    
-    # Fase 2: Ir al final de la cadena
-    - state: q1
-      read: [a]
-      write: [a]
-      move: R
-      next: q1
-    
-    - state: q1
-      read: [b]
-      write: [b]
-      move: R
-      next: q1
-    
-    - state: q1
-      read: [X]
-      write: [X]
-      move: R
-      next: q1
-    
-    - state: q1
-      read: [Y]
-      write: [Y]
-      move: R
-      next: q1
-    
-    - state: q1
-      read: [Z]
-      write: [Z]
-      move: R
-      next: q1
-    
-    # Encontrar el final y escribir el símbolo copiado
-    - state: q1
-      read: [B]
-      write: [Z]
       move: R
       next: q2
     
-    # Fase 3: Escribir la copia del símbolo marcado
-    # Si el símbolo original era 'a' (marcado como X)
-    - state: q2
+    # Si encuentra blanco al inicio, la cadena está vacía
+    - state: q0
+      read: [B]
+      write: [B]
+      move: S
+      next: qf
+    
+    # Desde q1: ir al final para agregar 'a'
+    - state: q1
+      read: [a]
+      write: [a]
+      move: R
+      next: q1
+    
+    - state: q1
+      read: [b]
+      write: [b]
+      move: R
+      next: q1
+    
+    - state: q1
+      read: [X]
+      write: [X]
+      move: R
+      next: q1
+    
+    - state: q1
+      read: [Y]
+      write: [Y]
+      move: R
+      next: q1
+    
+    - state: q1
       read: [B]
       write: [a]
       move: L
       next: q3
     
-    # Fase 4: Regresar al principio para continuar
+    # Desde q2: ir al final para agregar 'b'
+    - state: q2
+      read: [a]
+      write: [a]
+      move: R
+      next: q2
+    
+    - state: q2
+      read: [b]
+      write: [b]
+      move: R
+      next: q2
+    
+    - state: q2
+      read: [X]
+      write: [X]
+      move: R
+      next: q2
+    
+    - state: q2
+      read: [Y]
+      write: [Y]
+      move: R
+      next: q2
+    
+    - state: q2
+      read: [B]
+      write: [b]
+      move: L
+      next: q3
+    
+    # Desde q3: regresar al inicio
     - state: q3
       read: [a]
       write: [a]
@@ -99,12 +113,6 @@ mt:
     - state: q3
       read: [Y]
       write: [Y]
-      move: L
-      next: q3
-    
-    - state: q3
-      read: [Z]
-      write: [Z]
       move: L
       next: q3
     
@@ -114,7 +122,32 @@ mt:
       move: R
       next: q0
     
-    # Fase 5: Limpiar marcadores y finalizar
+    # Verificar si terminamos (solo símbolos originales)
+    - state: q0
+      read: [X]
+      write: [a]
+      move: R
+      next: q4
+    
+    - state: q0
+      read: [Y]
+      write: [b]
+      move: R
+      next: q4
+    
+    # Estado q4: verificar que terminamos correctamente
+    - state: q4
+      read: [a]
+      write: [a]
+      move: R
+      next: q4
+    
+    - state: q4
+      read: [b]
+      write: [b]
+      move: R
+      next: q4
+    
     - state: q4
       read: [X]
       write: [a]
@@ -128,39 +161,7 @@ mt:
       next: q4
     
     - state: q4
-      read: [a]
-      write: [a]
-      move: R
-      next: q4
-    
-    - state: q4
-      read: [b]
-      write: [b]
-      move: R
-      next: q4
-    
-    - state: q4
       read: [B]
       write: [B]
-      move: L
+      move: S
       next: qf
-    
-    # Transiciones adicionales para manejar el caso donde ya procesamos 'b'
-    - state: q2
-      read: [a]
-      write: [a]
-      move: R
-      next: q2
-    
-    - state: q2
-      read: [b]
-      write: [b]
-      move: R
-      next: q2
-    
-  inputs:
-    - "ab"           # Resultado esperado: abab
-    - "aab"          # Resultado esperado: aabaab
-    - "bba"          # Resultado esperado: bbabba
-    - "abab"         # Resultado esperado: abababab
-    - "aaaa"         # Resultado esperado: aaaaaaaa

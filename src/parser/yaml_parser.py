@@ -109,15 +109,16 @@ class YAMLParser:
     def get_test_inputs(data: Dict[str, Any]) -> List[str]:
         """
         Extrae las cadenas de entrada para pruebas
+        DEPRECATED: Las cadenas de prueba ahora se cargan desde archivos TXT separados
         
         Args:
             data: Diccionario con los datos del YAML
             
         Returns:
-            Lista de cadenas de entrada
+            Lista vacía (método deprecado)
         """
         validate_yaml_structure(data)
-        return data['mt']['inputs']
+        return []  # Retorna lista vacía ya que las cadenas están en archivos TXT
     
     @staticmethod
     def _get_blank_symbol(tape_alphabet: List[str]) -> str:

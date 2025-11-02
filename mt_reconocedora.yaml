@@ -1,0 +1,77 @@
+# Máquina de Turing Reconocedora
+# Reconoce el lenguaje {a^n b^n | n >= 1}
+# Algoritmo: Marca 'a's con 'X' y 'b's con 'Y', verifica que estén balanceadas
+
+mt:
+  states: [q0, q1, q2, q3, qf, qr]
+  input_alphabet: [a, b]
+  tape_alphabet: [a, b, X, Y, B]
+  initial_state: q0
+  accept_states: [qf]
+  transitions:
+    # Desde q0: buscar primera 'a' y marcarla con 'X'
+    - state: q0
+      read: [a]
+      write: [X]
+      move: R
+      next: q1
+    
+    # Desde q0: si encuentra 'Y' (ya procesadas), ir a verificar final
+    - state: q0
+      read: [Y]
+      write: [Y]
+      move: R
+      next: q3
+    
+    # Desde q1: pasar sobre 'a's y 'Y's hasta encontrar primera 'b'
+    - state: q1
+      read: [a]
+      write: [a]
+      move: R
+      next: q1
+    
+    - state: q1
+      read: [Y]
+      write: [Y]
+      move: R
+      next: q1
+    
+    # Desde q1: marcar primera 'b' con 'Y'
+    - state: q1
+      read: [b]
+      write: [Y]
+      move: L
+      next: q2
+    
+    # Desde q2: regresar al inicio pasando sobre símbolos marcados y no marcados
+    - state: q2
+      read: [Y]
+      write: [Y]
+      move: L
+      next: q2
+    
+    - state: q2
+      read: [a]
+      write: [a]
+      move: L
+      next: q2
+    
+    - state: q2
+      read: [X]
+      write: [X]
+      move: R
+      next: q0
+    
+    # Desde q3: verificar que solo queden 'Y's hasta el final
+    - state: q3
+      read: [Y]
+      write: [Y]
+      move: R
+      next: q3
+    
+    # Desde q3: si encuentra blanco, acepta
+    - state: q3
+      read: [B]
+      write: [B]
+      move: S
+      next: qf

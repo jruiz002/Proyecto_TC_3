@@ -1,0 +1,11 @@
+# Cadenas para MT Reconocedora {a^n b^n | n >= 1}
+# Formato: una cadena por línea
+# Las líneas que empiecen con # son comentarios
+
+# Cadenas ACEPTADAS (2 cadenas de 5+ caracteres)
+aaaaabbbbb
+aaabbb
+
+# Cadenas RECHAZADAS (2 cadenas de 5+ caracteres)  
+aaabbbaa
+aabbba

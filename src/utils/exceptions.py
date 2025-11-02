@@ -8,6 +8,11 @@ class MTException(Exception):
     pass
 
 
+class TuringMachineError(MTException):
+    """Excepción general para errores de la Máquina de Turing"""
+    pass
+
+
 class InvalidTransitionError(MTException):
     """Error cuando se intenta aplicar una transición inválida"""
     pass

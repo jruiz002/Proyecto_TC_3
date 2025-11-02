@@ -19,7 +19,7 @@ def validate_yaml_structure(data: Dict[str, Any]) -> None:
     required_fields = ['mt']
     mt_required_fields = [
         'states', 'input_alphabet', 'tape_alphabet', 
-        'initial_state', 'accept_states', 'transitions', 'inputs'
+        'initial_state', 'accept_states', 'transitions'
     ]
     
     # Verificar campos principales
@@ -49,9 +49,6 @@ def validate_yaml_structure(data: Dict[str, Any]) -> None:
     
     if not isinstance(mt_data['transitions'], list):
         raise YAMLParsingError("'transitions' debe ser una lista")
-    
-    if not isinstance(mt_data['inputs'], list):
-        raise YAMLParsingError("'inputs' debe ser una lista")
     
     # Validar que el estado inicial esté en la lista de estados
     if mt_data['initial_state'] not in mt_data['states']:
