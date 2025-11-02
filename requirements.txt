@@ -1,0 +1,10 @@
+# Dependencias del Simulador de Máquinas de Turing
+# Python 3.8+ requerido
+
+# Parser YAML
+PyYAML>=6.0
+
+# Utilidades de desarrollo (opcionales)
+# pytest>=7.0.0  # Para pruebas unitarias
+# black>=22.0.0  # Para formateo de código
+# flake8>=4.0.0  # Para linting

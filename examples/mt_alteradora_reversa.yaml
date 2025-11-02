@@ -1,0 +1,199 @@
+# Máquina de Turing Alteradora
+# Función: Invertir una cadena (reversa)
+# Descripción: Toma una cadena de entrada y la invierte completamente
+
+mt:
+  states: [q0, q1, q2, q3, q4, qf]
+  input_alphabet: [a, b, c]
+  tape_alphabet: [a, b, c, B, X, Y, Z]
+  initial_state: q0
+  accept_states: [qf]
+  transitions:
+    # Fase 1: Ir al final de la cadena
+    - state: q0
+      read: [a]
+      write: [a]
+      move: R
+      next: q0
+    
+    - state: q0
+      read: [b]
+      write: [b]
+      move: R
+      next: q0
+    
+    - state: q0
+      read: [c]
+      write: [c]
+      move: R
+      next: q0
+    
+    # Encontrar el final y empezar a procesar desde atrás
+    - state: q0
+      read: [B]
+      write: [B]
+      move: L
+      next: q1
+    
+    # Fase 2: Tomar el último símbolo y llevarlo al principio
+    # Procesar 'a'
+    - state: q1
+      read: [a]
+      write: [X]
+      move: L
+      next: q2
+    
+    # Procesar 'b'  
+    - state: q1
+      read: [b]
+      write: [Y]
+      move: L
+      next: q2
+    
+    # Procesar 'c'
+    - state: q1
+      read: [c]
+      write: [Z]
+      move: L
+      next: q2
+    
+    # Si no hay más símbolos originales, terminar
+    - state: q1
+      read: [B]
+      write: [B]
+      move: R
+      next: q4
+    
+    - state: q1
+      read: [X]
+      write: [X]
+      move: R
+      next: q4
+    
+    - state: q1
+      read: [Y]
+      write: [Y]
+      move: R
+      next: q4
+    
+    - state: q1
+      read: [Z]
+      write: [Z]
+      move: R
+      next: q4
+    
+    # Fase 3: Ir al principio de la cadena
+    - state: q2
+      read: [a]
+      write: [a]
+      move: L
+      next: q2
+    
+    - state: q2
+      read: [b]
+      write: [b]
+      move: L
+      next: q2
+    
+    - state: q2
+      read: [c]
+      write: [c]
+      move: L
+      next: q2
+    
+    - state: q2
+      read: [X]
+      write: [X]
+      move: L
+      next: q2
+    
+    - state: q2
+      read: [Y]
+      write: [Y]
+      move: L
+      next: q2
+    
+    - state: q2
+      read: [Z]
+      write: [Z]
+      move: L
+      next: q2
+    
+    # Llegamos al principio
+    - state: q2
+      read: [B]
+      write: [B]
+      move: R
+      next: q3
+    
+    # Fase 4: Encontrar el primer espacio disponible e insertar el símbolo
+    - state: q3
+      read: [a]
+      write: [a]
+      move: R
+      next: q3
+    
+    - state: q3
+      read: [b]
+      write: [b]
+      move: R
+      next: q3
+    
+    - state: q3
+      read: [c]
+      write: [c]
+      move: R
+      next: q3
+    
+    # Insertar 'a' (que estaba marcado como X)
+    - state: q3
+      read: [X]
+      write: [a]
+      move: R
+      next: q0
+    
+    # Insertar 'b' (que estaba marcado como Y)
+    - state: q3
+      read: [Y]
+      write: [b]
+      move: R
+      next: q0
+    
+    # Insertar 'c' (que estaba marcado como Z)
+    - state: q3
+      read: [Z]
+      write: [c]
+      move: R
+      next: q0
+    
+    # Fase 5: Limpiar y finalizar
+    - state: q4
+      read: [X]
+      write: [a]
+      move: R
+      next: q4
+    
+    - state: q4
+      read: [Y]
+      write: [b]
+      move: R
+      next: q4
+    
+    - state: q4
+      read: [Z]
+      write: [c]
+      move: R
+      next: q4
+    
+    - state: q4
+      read: [B]
+      write: [B]
+      move: L
+      next: qf
+    
+  inputs:
+    - "abcde"        # Resultado esperado: edcba
+    - "hello"        # Resultado esperado: olleh  
+    - "abcba"        # Resultado esperado: abcba (palíndromo)
+    - "programming"  # Resultado esperado: gnimmargorP
+    - "reverse"      # Resultado esperado: esrever
