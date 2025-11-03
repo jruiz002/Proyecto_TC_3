@@ -1,6 +1,5 @@
 # 🤖 Simulador de Máquinas de Turing - Proyecto TC3
 
-**Autor:** José Ruiz  
 **Curso:** Teoría de la Computación  
 **Universidad:** Universidad del Valle de Guatemala  
 **Fecha:** Noviembre 2025
@@ -9,15 +8,7 @@
 
 Este proyecto implementa un simulador completo de Máquinas de Turing con capacidad para ejecutar tanto **máquinas reconocedoras** como **máquinas alteradoras**. El sistema está diseñado con una interfaz de menú interactivo que facilita la comprensión y demostración del funcionamiento de las MT.
 
-## 🎯 Objetivos
-
-- ✅ Implementar una **MT Reconocedora** para el lenguaje {aⁿbⁿ | n ≥ 1}
-- ✅ Implementar una **MT Alteradora** que duplica cadenas (w → ww)
-- ✅ Crear un sistema de archivos organizados para fácil evaluación
-- ✅ Proporcionar un menú interactivo intuitivo
-- ✅ Generar descripciones instantáneas completas
-
-## 🏗️ Estructura del Proyecto
+## 🏗️ Arquitectura del Proyecto
 
 ```
 Proyecto_TC_3/
@@ -39,7 +30,6 @@ Proyecto_TC_3/
 
 ### 1. Requisitos Previos
 - Python 3.8 o superior
-- PyYAML (se instala automáticamente)
 
 ### 2. Instalación
 ```bash
@@ -58,16 +48,16 @@ python main.py
 Al ejecutar `python main.py`, aparecerá el siguiente menú:
 
 ```
-🤖 SIMULADOR DE MÁQUINAS DE TURING
+SIMULADOR DE MÁQUINAS DE TURING
    Proyecto TC3 - Teoría de la Computación
    Universidad del Valle de Guatemala
 ============================================================
 
-📋 OPCIONES DISPONIBLES:
-1. 🔍 Ejecutar MT Reconocedora {aⁿbⁿ | n ≥ 1}
-2. 🔄 Ejecutar MT Alteradora (Duplicar cadena)
-3. 📖 Ver información del proyecto
-4. 🚪 Salir
+OPCIONES DISPONIBLES:
+1. Ejecutar MT Reconocedora {aⁿbⁿ | n ≥ 1}
+2. Ejecutar MT Alteradora (Duplicar cadena)
+3. Ver información del proyecto
+4. Salir
 ```
 
 ### Opción 1: MT Reconocedora
@@ -166,39 +156,7 @@ aabbb
 babab
 ```
 
-## 🎥 Demostración para Video
-
-### Flujo de Demostración Sugerido:
-
-1. **Introducción (30 seg)**
-   - Mostrar estructura del proyecto
-   - Explicar archivos principales
-
-2. **MT Reconocedora (3 min)**
-   - Ejecutar opción 1 del menú
-   - Mostrar las 4 cadenas (2 aceptadas, 2 rechazadas)
-   - Explicar algoritmo y dificultad
-
-3. **MT Alteradora (3 min)**
-   - Ejecutar opción 2 del menú  
-   - Mostrar las 4 cadenas de duplicación
-   - Explicar algoritmo y dificultad
-
-4. **Arquitectura (1 min)**
-   - Mostrar opción 3 del menú
-   - Explicar diseño modular
-   - Destacar facilidad de uso
-
 ## 🔍 Características Técnicas
-
-### Funcionalidades del Simulador:
-- ✅ **Carga automática** de archivos YAML y TXT
-- ✅ **Validación completa** de estructura de MT
-- ✅ **Simulación paso a paso** con descripciones instantáneas
-- ✅ **Visualización clara** del estado de la cinta
-- ✅ **Manejo robusto de errores**
-- ✅ **Interfaz intuitiva** con pausas interactivas
-- ✅ **Resumen estadístico** de resultados
 
 ### Algoritmos Implementados:
 
@@ -229,17 +187,3 @@ babab
 - **Fácil de demostrar:** Menú interactivo intuitivo
 - **Fácil de entender:** Código modular y bien documentado
 - **Fácil de extender:** Arquitectura flexible y escalable
-
----
-
-## 🚀 ¡Listo para Evaluación!
-
-El proyecto está completamente funcional y optimizado para la evaluación. Simplemente ejecuta:
-
-```bash
-python main.py
-```
-
-Y sigue el menú interactivo para demostrar todas las funcionalidades requeridas por la rúbrica.
-
-**¡Éxito en tu evaluación! 🎉**
