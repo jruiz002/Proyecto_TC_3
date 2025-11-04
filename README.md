@@ -54,17 +54,17 @@ SIMULADOR DE MÁQUINAS DE TURING
 ============================================================
 
 OPCIONES DISPONIBLES:
-1. Ejecutar MT Reconocedora {aⁿbⁿ | n ≥ 1}
+1. Ejecutar MT Reconocedora de Palíndromos
 2. Ejecutar MT Alteradora (Duplicar cadena)
 3. Ver información del proyecto
 4. Salir
 ```
 
 ### Opción 1: MT Reconocedora
-- **Lenguaje:** {aⁿbⁿ | n ≥ 1}
+- **Lenguaje:** Palíndromos sobre {a, b}
 - **Archivo YAML:** `mt_reconocedora.yaml`
 - **Cadenas de prueba:** `cadenas_reconocedora.txt`
-- **Algoritmo:** Marca 'a's con 'X' y 'b's con 'Y', verifica balance
+- **Algoritmo:** Compara primer símbolo con el último, marca ambos y repite hasta el centro
 
 ### Opción 2: MT Alteradora  
 - **Función:** Duplicar cadena (w → ww)
@@ -77,17 +77,20 @@ OPCIONES DISPONIBLES:
 ### 🔍 MT Reconocedora (7 puntos)
 
 **Cadenas Aceptadas (≥5 caracteres):**
-- `"aaaaabbbbb"` - 10 caracteres, perfectamente balanceada
-- `"aaabbb"` - 6 caracteres, caso básico balanceado
+- `"abba"` - 4 caracteres, palíndromo simple
+- `"ababa"` - 5 caracteres, palíndromo impar
+- `"aabbaa"` - 6 caracteres, palíndromo par
+- `"bbaabb"` - 6 caracteres, palíndromo con patrón diferente
 
 **Cadenas Rechazadas (≥5 caracteres):**
-- `"aaabbbaa"` - 8 caracteres, tiene 'a's después de 'b's
-- `"aabbba"` - 6 caracteres, más 'b's que 'a's
+- `"abab"` - 4 caracteres, no es palíndromo
+- `"aabbb"` - 5 caracteres, no es palíndromo
+- `"aaabba"` - 6 caracteres, no es palíndromo
 
 **Dificultad de la MT:** Media-Alta
-- Requiere conteo y emparejamiento de símbolos
-- Utiliza marcadores para rastrear progreso
-- Maneja múltiples estados y transiciones complejas
+- Requiere comparación de símbolos en posiciones simétricas
+- Utiliza marcadores para rastrear progreso de comparación
+- Maneja navegación compleja por la cinta (ida y vuelta)
 
 ### 🔄 MT Alteradora (7 puntos)
 
@@ -115,12 +118,12 @@ OPCIONES DISPONIBLES:
 ### MT Reconocedora (`mt_reconocedora.yaml`)
 ```yaml
 mt:
-  states: [q0, q1, q2, q3, qf, qr]
+  states: [q0, q1, q2, q3, q4, q5, q6, q7, qf, qr]
   input_alphabet: [a, b]
   tape_alphabet: [a, b, X, Y, B]
   initial_state: q0
   accept_states: [qf]
-  transitions: [...]  # 8 transiciones definidas
+  transitions: [...]  # 25 transiciones definidas
 ```
 
 ### MT Alteradora (`mt_alteradora.yaml`)
@@ -138,13 +141,20 @@ mt:
 
 ### Reconocedora (`cadenas_reconocedora.txt`)
 ```
-# Cadenas ACEPTADAS (2 cadenas de 5+ caracteres)
-aaaaabbbbb
-aaabbb
+# Cadenas para MT Reconocedora de Palíndromos
+# Formato: una cadena por línea
+# Las líneas que empiecen con # son comentarios
 
-# Cadenas RECHAZADAS (2 cadenas de 5+ caracteres)  
-aaabbbaa
-aabbba
+# Cadenas ACEPTADAS (palíndromos)
+abba
+ababa
+aabbaa
+bbaabb
+
+# Cadenas RECHAZADAS (no son palíndromos)
+abab
+aabbb
+aaabba
 ```
 
 ### Alteradora (`cadenas_alteradora.txt`)
@@ -160,12 +170,12 @@ babab
 
 ### Algoritmos Implementados:
 
-**MT Reconocedora {aⁿbⁿ}:**
-1. Marca la primera 'a' con 'X'
-2. Busca la primera 'b' y la marca con 'Y'  
-3. Regresa al inicio y repite
-4. Verifica que solo queden marcadores
-5. Acepta si está balanceada
+**MT Reconocedora de Palíndromos:**
+1. Lee el primer símbolo no marcado y lo marca (a→X, b→Y)
+2. Avanza hasta el final de la cadena
+3. Verifica que el último símbolo coincida con el primero y lo marca
+4. Regresa al inicio y repite el proceso
+5. Acepta si todos los símbolos coinciden correctamente
 
 **MT Alteradora (Duplicar):**
 1. Marca el primer símbolo de la cadena

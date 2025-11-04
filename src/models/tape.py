@@ -2,7 +2,7 @@
 Clase Tape para representar la cinta de una Máquina de Turing
 """
 
-from typing import List, Optional
+from typing import Optional
 
 
 class Tape:

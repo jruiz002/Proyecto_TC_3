@@ -1,76 +1,200 @@
-# Máquina de Turing Reconocedora
-# Reconoce el lenguaje {a^n b^n | n >= 1}
-# Algoritmo: Marca 'a's con 'X' y 'b's con 'Y', verifica que estén balanceadas
+# Máquina de Turing Reconocedora de Palíndromos
+# Reconoce palíndromos sobre el alfabeto {a, b}
+# Algoritmo: Compara el primer símbolo con el último, marca ambos, y repite hasta el centro
 
 mt:
-  states: [q0, q1, q2, q3, qf, qr]
+  states: [q0, q1, q2, q3, q4, q5, q6, q7, qf, qr]
   input_alphabet: [a, b]
   tape_alphabet: [a, b, X, Y, B]
   initial_state: q0
   accept_states: [qf]
   transitions:
-    # Desde q0: buscar primera 'a' y marcarla con 'X'
+    # Estado q0: Inicio - leer el primer símbolo
+    # Si lee 'a', marcar con 'X' e ir a buscar 'a' al final
     - state: q0
       read: [a]
       write: [X]
       move: R
       next: q1
     
-    # Desde q0: si encuentra 'Y' (ya procesadas), ir a verificar final
+    # Si lee 'b', marcar con 'Y' e ir a buscar 'b' al final
+    - state: q0
+      read: [b]
+      write: [Y]
+      move: R
+      next: q2
+    
+    # Si lee 'X' o 'Y' (ya marcados), ir a verificar que todo esté marcado
+    - state: q0
+      read: [X]
+      write: [X]
+      move: R
+      next: q6
+    
     - state: q0
       read: [Y]
       write: [Y]
       move: R
-      next: q3
+      next: q6
     
-    # Desde q1: pasar sobre 'a's y 'Y's hasta encontrar primera 'b'
+    # Si encuentra blanco al inicio, acepta (cadena vacía es palíndromo)
+    - state: q0
+      read: [B]
+      write: [B]
+      move: S
+      next: qf
+    
+    # Estado q1: Marcamos 'a' al inicio, ir al final para buscar 'a'
     - state: q1
       read: [a]
       write: [a]
       move: R
       next: q1
     
-    - state: q1
-      read: [Y]
-      write: [Y]
-      move: R
-      next: q1
-    
-    # Desde q1: marcar primera 'b' con 'Y'
     - state: q1
       read: [b]
-      write: [Y]
-      move: L
-      next: q2
+      write: [b]
+      move: R
+      next: q1
     
-    # Desde q2: regresar al inicio pasando sobre símbolos marcados y no marcados
-    - state: q2
+    - state: q1
+      read: [X]
+      write: [X]
+      move: R
+      next: q1
+    
+    - state: q1
       read: [Y]
       write: [Y]
-      move: L
-      next: q2
+      move: R
+      next: q1
     
+    # Llegamos al final (blanco), retroceder para verificar último símbolo
+    - state: q1
+      read: [B]
+      write: [B]
+      move: L
+      next: q3
+    
+    # Estado q2: Marcamos 'b' al inicio, ir al final para buscar 'b'
     - state: q2
       read: [a]
       write: [a]
-      move: L
+      move: R
+      next: q2
+    
+    - state: q2
+      read: [b]
+      write: [b]
+      move: R
       next: q2
     
     - state: q2
       read: [X]
       write: [X]
       move: R
-      next: q0
+      next: q2
     
-    # Desde q3: verificar que solo queden 'Y's hasta el final
+    - state: q2
+      read: [Y]
+      write: [Y]
+      move: R
+      next: q2
+    
+    # Llegamos al final (blanco), retroceder para verificar último símbolo
+    - state: q2
+      read: [B]
+      write: [B]
+      move: L
+      next: q4
+    
+    # Estado q3: Verificar que el último símbolo sea 'a'
+    - state: q3
+      read: [a]
+      write: [X]
+      move: L
+      next: q5
+    
+    # Si encuentra X o Y, significa que ya está marcado (palíndromo de 1 elemento)
+    - state: q3
+      read: [X]
+      write: [X]
+      move: R
+      next: qf
+    
     - state: q3
       read: [Y]
       write: [Y]
       move: R
-      next: q3
+      next: qf
     
-    # Desde q3: si encuentra blanco, acepta
-    - state: q3
+    # Estado q4: Verificar que el último símbolo sea 'b'
+    - state: q4
+      read: [b]
+      write: [Y]
+      move: L
+      next: q5
+    
+    # Si encuentra X o Y, significa que ya está marcado (palíndromo de 1 elemento)
+    - state: q4
+      read: [X]
+      write: [X]
+      move: R
+      next: qf
+    
+    - state: q4
+      read: [Y]
+      write: [Y]
+      move: R
+      next: qf
+    
+    # Estado q5: Regresar al inicio
+    - state: q5
+      read: [a]
+      write: [a]
+      move: L
+      next: q5
+    
+    - state: q5
+      read: [b]
+      write: [b]
+      move: L
+      next: q5
+    
+    - state: q5
+      read: [X]
+      write: [X]
+      move: L
+      next: q5
+    
+    - state: q5
+      read: [Y]
+      write: [Y]
+      move: L
+      next: q5
+    
+    # Llegamos al inicio (blanco), avanzar y continuar
+    - state: q5
+      read: [B]
+      write: [B]
+      move: R
+      next: q0
+    
+    # Estado q6: Verificar que todo esté marcado (X o Y)
+    - state: q6
+      read: [X]
+      write: [X]
+      move: R
+      next: q6
+    
+    - state: q6
+      read: [Y]
+      write: [Y]
+      move: R
+      next: q6
+    
+    # Si encuentra blanco después de verificar, acepta
+    - state: q6
       read: [B]
       write: [B]
       move: S

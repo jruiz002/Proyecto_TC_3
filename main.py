@@ -25,7 +25,7 @@ class TuringMachineMenu:
         print("   Universidad del Valle de Guatemala")
         print("="*60)
         print("\n OPCIONES DISPONIBLES:")
-        print("1.  Ejecutar MT Reconocedora {aⁿbⁿ | n ≥ 1}")
+        print("1.  Ejecutar MT Reconocedora de Palíndromos")
         print("2.  Ejecutar MT Alteradora (Duplicar cadena)")
         print("3.  Ver información del proyecto")
         print("4.  Salir")
@@ -52,8 +52,8 @@ class TuringMachineMenu:
     def ejecutar_mt_reconocedora(self):
         """Ejecuta la MT reconocedora con las cadenas del archivo"""
         print("\n" + " MÁQUINA DE TURING RECONOCEDORA".center(60, "="))
-        print("Lenguaje: {aⁿbⁿ | n ≥ 1}")
-        print("Descripción: Reconoce cadenas con igual número de 'a's seguidas de 'b's")
+        print("Lenguaje: Palíndromos sobre {a, b}")
+        print("Descripción: Reconoce cadenas que se leen igual de izquierda a derecha")
         print("-"*60)
         
         # Cargar la MT desde el archivo YAML
@@ -186,9 +186,10 @@ class TuringMachineMenu:
    • main.py                  - Este menú interactivo
 
  MT RECONOCEDORA:
-   • Lenguaje: {aⁿbⁿ | n ≥ 1}
-   • Algoritmo: Marca 'a's con 'X' y 'b's con 'Y', verifica balance
-   • Dificultad: Media (requiere conteo y verificación)
+   • Lenguaje: Palíndromos sobre {a, b}
+   • Algoritmo: Compara primer símbolo con el último, marca ambos y repite
+   • Descripción: Reconoce cadenas que se leen igual hacia adelante y atrás
+   • Ejemplos: "aba", "abba", "aabbaa" son palíndromos
 
  MT ALTERADORA:
    • Función: Duplicar cadena (w → ww)

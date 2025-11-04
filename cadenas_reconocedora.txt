@@ -1,11 +1,14 @@
-# Cadenas para MT Reconocedora {a^n b^n | n >= 1}
+# Cadenas para MT Reconocedora de Palíndromos
 # Formato: una cadena por línea
 # Las líneas que empiecen con # son comentarios
 
-# Cadenas ACEPTADAS (2 cadenas de 5+ caracteres)
-aaaaabbbbb
-aaabbb
+# Cadenas ACEPTADAS (palíndromos)
+abba
+ababa
+aabbaa
+bbaabb
 
-# Cadenas RECHAZADAS (2 cadenas de 5+ caracteres)  
-aaabbbaa
-aabbba
+# Cadenas RECHAZADAS (no son palíndromos)
+abab
+aabbb
+aaabba
