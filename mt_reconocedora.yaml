@@ -3,13 +3,20 @@
 # Algoritmo: Compara el primer símbolo con el último, marca ambos, y repite hasta el centro
 
 mt:
-  states: [q0, q1, q2, q3, q4, q5, q6, q7, qf, qr]
+  states: [q0, q1, q2, q3, q4, qback, qf, qr]
   input_alphabet: [a, b]
   tape_alphabet: [a, b, X, Y, B]
   initial_state: q0
   accept_states: [qf]
   transitions:
-    # Estado q0: Inicio - leer el primer símbolo
+    # Estado q0: Inicio - leer el primer símbolo no marcado
+    # Saltar X marcados
+    - state: q0
+      read: [X]
+      write: [X]
+      move: R
+      next: q0
+    
     # Si lee 'a', marcar con 'X' e ir a buscar 'a' al final
     - state: q0
       read: [a]
@@ -17,34 +24,21 @@ mt:
       move: R
       next: q1
     
-    # Si lee 'b', marcar con 'Y' e ir a buscar 'b' al final
+    # Si lee 'b', marcar con 'X' e ir a buscar 'b' al final
     - state: q0
       read: [b]
-      write: [Y]
+      write: [X]
       move: R
       next: q2
     
-    # Si lee 'X' o 'Y' (ya marcados), ir a verificar que todo esté marcado
-    - state: q0
-      read: [X]
-      write: [X]
-      move: R
-      next: q6
-    
-    - state: q0
-      read: [Y]
-      write: [Y]
-      move: R
-      next: q6
-    
-    # Si encuentra blanco al inicio, acepta (cadena vacía es palíndromo)
+    # Si encuentra blanco, acepta (todo marcado o cadena vacía)
     - state: q0
       read: [B]
       write: [B]
       move: S
       next: qf
     
-    # Estado q1: Marcamos 'a' al inicio, ir al final para buscar 'a'
+    # Estado q1: Marcamos 'a' al inicio, buscar último 'a'
     - state: q1
       read: [a]
       write: [a]
@@ -63,20 +57,14 @@ mt:
       move: R
       next: q1
     
-    - state: q1
-      read: [Y]
-      write: [Y]
-      move: R
-      next: q1
-    
-    # Llegamos al final (blanco), retroceder para verificar último símbolo
+    # Llegamos al final, retroceder para marcar último 'a'
     - state: q1
       read: [B]
       write: [B]
       move: L
       next: q3
     
-    # Estado q2: Marcamos 'b' al inicio, ir al final para buscar 'b'
+    # Estado q2: Marcamos 'b' al inicio, buscar último 'b'
     - state: q2
       read: [a]
       write: [a]
@@ -95,107 +83,93 @@ mt:
       move: R
       next: q2
     
-    - state: q2
-      read: [Y]
-      write: [Y]
-      move: R
-      next: q2
-    
-    # Llegamos al final (blanco), retroceder para verificar último símbolo
+    # Llegamos al final, retroceder para marcar último 'b'
     - state: q2
       read: [B]
       write: [B]
       move: L
       next: q4
     
-    # Estado q3: Verificar que el último símbolo sea 'a'
+    # Estado q3: Buscar y marcar el último 'a'
+    # Saltar X's ya marcados
+    - state: q3
+      read: [X]
+      write: [X]
+      move: L
+      next: q3
+    
+    # Encontramos 'a', marcar y regresar
     - state: q3
       read: [a]
       write: [X]
       move: L
-      next: q5
+      next: qback
     
-    # Si encuentra X o Y, significa que ya está marcado (palíndromo de 1 elemento)
+    # Si encuentra B (llegamos al inicio sin encontrar 'a'), aceptar
     - state: q3
-      read: [X]
-      write: [X]
-      move: R
-      next: qf
-    
-    - state: q3
-      read: [Y]
-      write: [Y]
-      move: R
-      next: qf
-    
-    # Estado q4: Verificar que el último símbolo sea 'b'
-    - state: q4
-      read: [b]
-      write: [Y]
-      move: L
-      next: q5
-    
-    # Si encuentra X o Y, significa que ya está marcado (palíndromo de 1 elemento)
-    - state: q4
-      read: [X]
-      write: [X]
-      move: R
-      next: qf
-    
-    - state: q4
-      read: [Y]
-      write: [Y]
-      move: R
-      next: qf
-    
-    # Estado q5: Regresar al inicio
-    - state: q5
-      read: [a]
-      write: [a]
-      move: L
-      next: q5
-    
-    - state: q5
-      read: [b]
-      write: [b]
-      move: L
-      next: q5
-    
-    - state: q5
-      read: [X]
-      write: [X]
-      move: L
-      next: q5
-    
-    - state: q5
-      read: [Y]
-      write: [Y]
-      move: L
-      next: q5
-    
-    # Llegamos al inicio (blanco), avanzar y continuar
-    - state: q5
-      read: [B]
-      write: [B]
-      move: R
-      next: q0
-    
-    # Estado q6: Verificar que todo esté marcado (X o Y)
-    - state: q6
-      read: [X]
-      write: [X]
-      move: R
-      next: q6
-    
-    - state: q6
-      read: [Y]
-      write: [Y]
-      move: R
-      next: q6
-    
-    # Si encuentra blanco después de verificar, acepta
-    - state: q6
       read: [B]
       write: [B]
       move: S
       next: qf
+    
+    # Si no encuentra 'a', rechazar
+    - state: q3
+      read: [b]
+      write: [b]
+      move: S
+      next: qr
+    
+    # Estado q4: Buscar y marcar el último 'b'
+    # Saltar X's ya marcados
+    - state: q4
+      read: [X]
+      write: [X]
+      move: L
+      next: q4
+    
+    # Encontramos 'b', marcar y regresar
+    - state: q4
+      read: [b]
+      write: [X]
+      move: L
+      next: qback
+    
+    # Si encuentra B (llegamos al inicio sin encontrar 'b'), aceptar
+    - state: q4
+      read: [B]
+      write: [B]
+      move: S
+      next: qf
+    
+    # Si no encuentra 'b', rechazar
+    - state: q4
+      read: [a]
+      write: [a]
+      move: S
+      next: qr
+    
+    # Estado qback: Regresar al inicio
+    - state: qback
+      read: [a]
+      write: [a]
+      move: L
+      next: qback
+    
+    - state: qback
+      read: [b]
+      write: [b]
+      move: L
+      next: qback
+    
+    - state: qback
+      read: [X]
+      write: [X]
+      move: L
+      next: qback
+    
+    # Llegamos al inicio (blanco), avanzar y continuar
+    - state: qback
+      read: [B]
+      write: [B]
+      move: R
+      next: q0

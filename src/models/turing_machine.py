@@ -2,7 +2,7 @@
 Clase TuringMachine para representar una Máquina de Turing completa
 """
 
-from typing import List, Dict, Set, Optional
+from typing import List, Dict, Optional
 from .state import State
 from .transition import Transition
 from .tape import Tape

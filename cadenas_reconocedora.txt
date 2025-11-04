@@ -3,6 +3,7 @@
 # Las líneas que empiecen con # son comentarios
 
 # Cadenas ACEPTADAS (palíndromos)
+aba
 abba
 ababa
 aabbaa

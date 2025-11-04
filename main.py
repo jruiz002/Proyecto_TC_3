@@ -84,10 +84,17 @@ class TuringMachineMenu:
                 accepted, ids, final_result = simulator.simulate(cadena)
                 resultados.append((cadena, accepted, len(ids)))
                 
+                # Mostrar las descripciones instantáneas
+                print(f"\n DESCRIPCIONES INSTANTÁNEAS:")
+                print("-"*60)
+                for id_desc in ids:
+                    print(f" {id_desc.get_compact_representation()}")
+                print("-"*60)
+                
                 if accepted:
-                    print(f" RESULTADO: Cadena '{cadena}' ACEPTADA en {len(ids)} pasos")
+                    print(f"\n RESULTADO: Cadena '{cadena}' ACEPTADA en {len(ids)} pasos")
                 else:
-                    print(f" RESULTADO: Cadena '{cadena}' RECHAZADA en {len(ids)} pasos")
+                    print(f"\n RESULTADO: Cadena '{cadena}' RECHAZADA en {len(ids)} pasos")
                     
             except Exception as e:
                 print(f" Error simulando '{cadena}': {e}")
@@ -134,11 +141,18 @@ class TuringMachineMenu:
                 accepted, ids, final_result = simulator.simulate(cadena)
                 resultados.append((cadena, accepted, len(ids)))
                 
+                # Mostrar las descripciones instantáneas
+                print(f"\n DESCRIPCIONES INSTANTÁNEAS:")
+                print("-"*60)
+                for id_desc in ids:
+                    print(f" {id_desc.get_compact_representation()}")
+                print("-"*60)
+                
                 if accepted:
-                    print(f" RESULTADO: Cadena '{cadena}' procesada exitosamente en {len(ids)} pasos")
+                    print(f"\n RESULTADO: Cadena '{cadena}' procesada exitosamente en {len(ids)} pasos")
                     print(f" Resultado final: '{final_result}'")
                 else:
-                    print(f" RESULTADO: Error procesando '{cadena}' en {len(ids)} pasos")
+                    print(f"\n RESULTADO: Error procesando '{cadena}' en {len(ids)} pasos")
                     
             except Exception as e:
                 print(f" Error simulando '{cadena}': {e}")

@@ -3,7 +3,6 @@ Simulador principal de Máquinas de Turing
 """
 
 from typing import List, Tuple, Optional
-import copy
 from ..models.turing_machine import TuringMachine
 from ..models.tape import Tape
 from ..models.transition import Transition
