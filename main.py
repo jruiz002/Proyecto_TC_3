@@ -149,8 +149,13 @@ class TuringMachineMenu:
                 print("-"*60)
                 
                 if accepted:
+                    # Extraer la cadena duplicada desde la última descripción (contenido de la cinta)
+                    # y filtrar únicamente símbolos del alfabeto de entrada (evita 'B' y cualquier marcador)
+                    contenido_final = ids[-1].tape_content if ids else ""
+                    alfabeto = mt.input_alphabet if hasattr(mt, 'input_alphabet') else set(['a','b'])
+                    cadena_duplicada = ''.join(ch for ch in contenido_final if ch in alfabeto)
                     print(f"\n RESULTADO: Cadena '{cadena}' procesada exitosamente en {len(ids)} pasos")
-                    print(f" Resultado final: '{final_result}'")
+                    print(f" Cadena duplicada: '{cadena_duplicada}'")
                 else:
                     print(f"\n RESULTADO: Error procesando '{cadena}' en {len(ids)} pasos")
                     

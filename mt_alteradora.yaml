@@ -3,13 +3,32 @@
 # Algoritmo: Copia cada símbolo de la cadena original al final
 
 mt:
-  states: [q0, q1, q2, q3, q4, q5, qf]
+  states: [qStart, q0, q1, q2, q3, q4, q5, qf]
   input_alphabet: [a, b]
-  tape_alphabet: [a, b, X, Y, B]
-  initial_state: q0
+  tape_alphabet: [a, b, X, Y, D, B]
+  initial_state: qStart
   accept_states: [qf]
   transitions:
-    # Desde q0: marcar primer símbolo y determinar qué copiar
+    # qStart: ir al final de la cadena original y colocar delimitador 'D'
+    - state: qStart
+      read: [a]
+      write: [a]
+      move: R
+      next: qStart
+    
+    - state: qStart
+      read: [b]
+      write: [b]
+      move: R
+      next: qStart
+    
+    - state: qStart
+      read: [B]
+      write: [D]
+      move: L
+      next: q3
+
+    # Desde q0: marcar símbolo actual y decidir qué copiar (solo antes de 'D')
     - state: q0
       read: [a]
       write: [X]
@@ -22,12 +41,25 @@ mt:
       move: R
       next: q2
     
-    # Si encuentra blanco al inicio, la cadena está vacía
+    # Si encuentra delimitador 'D', hemos terminado de marcar
     - state: q0
-      read: [B]
-      write: [B]
-      move: S
-      next: qf
+      read: [D]
+      write: [D]
+      move: L
+      next: q5
+    
+    # En q0: saltar símbolos ya marcados para buscar el siguiente sin marcar
+    - state: q0
+      read: [X]
+      write: [X]
+      move: R
+      next: q0
+    
+    - state: q0
+      read: [Y]
+      write: [Y]
+      move: R
+      next: q0
     
     # Desde q1: ir al final para agregar 'a'
     - state: q1
@@ -51,6 +83,12 @@ mt:
     - state: q1
       read: [Y]
       write: [Y]
+      move: R
+      next: q1
+    
+    - state: q1
+      read: [D]
+      write: [D]
       move: R
       next: q1
     
@@ -86,12 +124,18 @@ mt:
       next: q2
     
     - state: q2
+      read: [D]
+      write: [D]
+      move: R
+      next: q2
+    
+    - state: q2
       read: [B]
       write: [b]
       move: L
       next: q3
     
-    # Desde q3: regresar al inicio
+    # Desde q3: regresar al inicio (solo una vez, sin duplicados)
     - state: q3
       read: [a]
       write: [a]
@@ -117,25 +161,55 @@ mt:
       next: q3
     
     - state: q3
+      read: [D]
+      write: [D]
+      move: L
+      next: q3
+    
+    - state: q3
       read: [B]
       write: [B]
       move: R
       next: q0
     
-    # Verificar si terminamos (solo símbolos originales)
-    - state: q0
-      read: [X]
+    # q5: regresar al inicio absoluto (izquierda) y pasar a limpieza
+    - state: q5
+      read: [a]
       write: [a]
-      move: R
-      next: q4
+      move: L
+      next: q5
     
-    - state: q0
-      read: [Y]
+    - state: q5
+      read: [b]
       write: [b]
+      move: L
+      next: q5
+    
+    - state: q5
+      read: [X]
+      write: [X]
+      move: L
+      next: q5
+    
+    - state: q5
+      read: [Y]
+      write: [Y]
+      move: L
+      next: q5
+    
+    - state: q5
+      read: [D]
+      write: [D]
+      move: L
+      next: q5
+    
+    - state: q5
+      read: [B]
+      write: [B]
       move: R
       next: q4
     
-    # Estado q4: verificar que terminamos correctamente
+    # q4: limpieza final de marcadores X/Y y eliminación de 'D'
     - state: q4
       read: [a]
       write: [a]
@@ -157,6 +231,12 @@ mt:
     - state: q4
       read: [Y]
       write: [b]
+      move: R
+      next: q4
+    
+    - state: q4
+      read: [D]
+      write: [B]
       move: R
       next: q4
     
