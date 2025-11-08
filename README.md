@@ -1,5 +1,16 @@
 # 🤖 Simulador de Máquinas de Turing - Proyecto TC3
 
+## 🎥 Video de demostración
+
+<p align="center">
+  <a href="https://youtu.be/a9uvLOrx9Dw" target="_blank">
+    <img src="https://img.youtube.com/vi/a9uvLOrx9Dw/hqdefault.jpg" alt="Video del proyecto: Máquinas de Turing" />
+  </a>
+  <br/>
+  <em>Haz clic en la imagen para ver el video</em>
+  <br/>
+</p>
+
 **Curso:** Teoría de la Computación  
 **Universidad:** Universidad del Valle de Guatemala  
 **Fecha:** Noviembre 2025
